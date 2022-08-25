@@ -1,13 +1,14 @@
 #installing 
-#install.packages("devtools")
-#devtools::install_github("yasinkaymaz/HieRFIT")
+install.packages("devtools")
+devtools::install_github("yasinkaymaz/HieRFIT")
 library(HieRFIT)
 
 ##recommended packages
-#install.packages("DiagrammeR")
-#install.packages("e1071")
-#install.packages("alluvial")
-#install.packages("ggalluvial")
+install.packages("DiagrammeR")
+install.packages("e1071")
+install.packages("alluvial")
+install.packages("ggalluvial")
+
 library(DiagrammeR)
 library(e1071)
 library(alluvial)
@@ -41,9 +42,9 @@ SaveHieRMod(refMod = refmod, filePrefix = "PBMC3K_HierMod")
 #classification accuracy of the mode
 PlotTopoNodeAcc(refMod = refmod)
 
-###################
-### NEW SESSION ###
-###################
+###################  ##########################################################
+### 2nd SESSION ###  #Projecting the reference cell type on to a query dataset#
+###################  ##########################################################
 
 setwd("C:/Users/OZAN/Desktop/datasets/filtered_feature_bc_matrix")
 list.files()
@@ -64,3 +65,12 @@ setwd("C:/Users/OZAN/Desktop")
 refmod <- readRDS( "PBMC3K_HierMod.RDS")
 hierObj <- HieRFIT(Query = newPBMC[["RNA"]]@data, refMod = refmod)
 head(hierObj@Evaluation)
+
+#Exploring the projection results:
+PlotBarStats(HieRobj = hierObj)
+PlotTopoStats(HieRobj = hierObj)
+
+newPBMC@meta.data$res.1
+CrossCheck(HieRobj = hierObj, Prior = newPBMC@meta.data$res.1)
+
+sessionInfo()
